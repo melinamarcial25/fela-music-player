@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #playButton {
+      width: 60px;
+      height: 60px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: none;
+      background: transparent;
+      color: #000000;
+
+      font-family: Arial, sans-serif;
+      font-size: 34px;
+
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <audio id="audio"></audio>
+
+  <button id="playButton" aria-label="Reproducir música">
+    ▶
+  </button>
+
+  <script>
+    const audio = document.getElementById("audio");
+    const button = document.getElementById("playButton");
+
+    // Lee el nombre de la canción desde el enlace
+    const parametros = new URLSearchParams(window.location.search);
+    const song = parametros.get("song");
+
+    // Busca automáticamente el MP3 dentro de /canciones/
+    if (song) {
+      audio.src = "canciones/" + encodeURIComponent(song) + ".mp3";
+    }
+
+    button.addEventListener("click", async () => {
+
+      if (!song) {
+        console.error("No se especificó ninguna canción.");
+        return;
+      }
+
+      if (audio.paused) {
+        try {
+          await audio.play();
+          button.textContent = "Ⅱ";
+        } catch (error) {
+          console.error("No se pudo reproducir la canción.", error);
+        }
+      } else {
+        audio.pause();
+        button.textContent = "▶";
+      }
+
+    });
+
+    audio.addEventListener("ended", () => {
+      button.textContent = "▶";
+    });
+  </script>
+
+</body>
+</html>

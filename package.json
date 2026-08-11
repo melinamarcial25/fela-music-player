@@ -1,0 +1,7 @@
+{
+  "name": "fela-music-player",
+  "private": true,
+  "devDependencies": {
+    "wrangler": "4.115.0"
+  }
+}

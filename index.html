@@ -31,7 +31,6 @@
 
       border: none;
       background: transparent;
-      color: #000000;
 
       font-family: Arial, sans-serif;
       font-size: 34px;
@@ -53,11 +52,13 @@
     const audio = document.getElementById("audio");
     const button = document.getElementById("playButton");
 
-    // Lee el nombre de la canción desde el enlace
     const parametros = new URLSearchParams(window.location.search);
-    const song = parametros.get("song");
 
-    // Busca automáticamente el MP3 dentro de /canciones/
+    const song = parametros.get("song");
+    const color = parametros.get("color") || "#000000";
+
+    button.style.color = color;
+
     if (song) {
       audio.src = "canciones/" + encodeURIComponent(song) + ".mp3";
     }
@@ -65,7 +66,6 @@
     button.addEventListener("click", async () => {
 
       if (!song) {
-        console.error("No se especificó ninguna canción.");
         return;
       }
 
